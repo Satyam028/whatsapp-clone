@@ -5,15 +5,27 @@ import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import { SearchOutlined } from "@material-ui/icons";
 import MicIcon from "@material-ui/icons/Mic";
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "./Chat.css";
+import db from "../firebase";
 
 function Chat() {
   const [seed, setSeed] = useState("");
   const [input, setInput] = useState("");
+  const [roomName, setRoomName] = useState("");
+  const { roomId } = useParams();
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
+
+  useEffect(() => {
+    if (roomId) {
+      db.collection("rooms")
+        .doc(roomId)
+        .onSnapshot((snapshot) => setRoomName(snapshot.data().name));
+    }
+  }, [roomId]);
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -27,7 +39,7 @@ function Chat() {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
 
         <div className="chat_headerInfo">
-          <h3>Room Name</h3>
+          <h3>{roomName}</h3>
           <p>Last seen...</p>
         </div>
 
