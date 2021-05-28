@@ -37,7 +37,7 @@
   background-repeat: repeat;
   background-position: center;
   padding: 30px;
-  /* overflow: scroll; */
+  overflow: scroll;
 }
 .chat_message {
   position: relative;
@@ -85,7 +85,7 @@
   border: none;
 }
 
-.chat_footer > form > input > button {
+.chat_footer > form > button {
   display: none;
 }
 

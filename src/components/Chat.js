@@ -10,7 +10,7 @@ import "./Chat.css";
 import db from "../firebase";
 import userEvent from "@testing-library/user-event";
 import { useStateValue } from "../StateProvider";
-import firebase from "../firebase";
+import firebase from "firebase";
 
 function Chat() {
   const [seed, setSeed] = useState("");
@@ -59,7 +59,12 @@ function Chat() {
 
         <div className="chat_headerInfo">
           <h3>{roomName}</h3>
-          <p>Last seen...</p>
+          <p>
+            Last seen{" "}
+            {new Date(
+              messages[messages.length - 1]?.timestamp?.toDate()
+            ).toUTCString()}
+          </p>
         </div>
 
         <div className="chat_headerRight">
@@ -79,7 +84,11 @@ function Chat() {
       {/* chat body */}
       <div className="chat_body">
         {messages.map((message) => (
-          <p className={`chat_message ${true && "chat_receiver"}`}>
+          <p
+            className={`chat_message ${
+              message.name === user.displayName && "chat_receiver"
+            }`}
+          >
             <span className="chat_name">{message.name}</span>
             {message.message}
             <span className="chat_timestamp">
